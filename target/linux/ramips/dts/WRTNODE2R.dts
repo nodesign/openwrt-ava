@@ -10,6 +10,10 @@
 		bootargs = "console=ttyS0,115200";
 	};
 
+	aliases {
+		spi0 = &spi0;
+	};
+
 	pinctrl {
 		state_default: pinctrl0 {
 			gpio {
@@ -20,8 +24,10 @@
 	};
 
 	palmbus@10000000 {
-		spi@b00 {
+		spi0: spi@b00 {
 			status = "okay";
+			pinctrl-names = "default";
+			pinctrl-0 = <&spi_pins &spi_cs1_pins>;
 
 			m25p80@0 {
 				#address-cells = <1>;
@@ -54,6 +60,12 @@
 					label = "firmware";
 					reg = <0x50000 0x1fb0000>;
 				};
+			};
+
+			spidev@1 {
+				compatible = "rohm,dh2228fv";
+				reg = <1 0>;
+				spi-max-frequency = <10000000>;
 			};
 
 		};
